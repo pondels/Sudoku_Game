@@ -6,20 +6,26 @@ class Board
 {
 public:
     string board[9][9] = {
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"},
-                      {"[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]", "[]"}
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
+                      {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"}
                         };
 
     void addNum(string number, int row, int column)
     {
-        board[row - 1][column - 1] = number;
+        string space = " ";
+        board[row - 1][column - 1] = space += number += space;
+    }
+
+    void removeNum(int row, int column)
+    {
+        board[row - 1][column - 1] = "[ ]";
     }
 
     void printBoard()
@@ -54,21 +60,38 @@ int main()
 
     board.printBoard();
 
-    int row;
-    int column;
-    string number;
+    bool playing = true;
 
-    for(int y = 0; y < 10; y++)
-        {
-            cout << "Enter A Row > ";
-            cin >> row;
-            cout << "Enter A Column > ";
-            cin >> column;
-            cout << "Enter A Number > ";
-            cin >> number;
+        while(playing){
+            int row;
+            int column;
+            string number;
+            int choice;
 
-            board.addNum(number, row, column);
-            board.printBoard();
+            cout << "PLEASE PICK AN OPTION: \n1) Add Number\n2) Remove Number\n3) Quit Game\n> ";
+            cin >> choice;
+            if (choice == 1){
+                cout << "Enter A Row > ";
+                cin >> row;
+                cout << "Enter A Column > ";
+                cin >> column;
+                cout << "Enter A Number > ";
+                cin >> number;
+                board.addNum(number, row, column);
+                board.printBoard();
+            }
+            else if (choice == 2){
+                cout << "Enter A Row > ";
+                cin >> row;
+                cout << "Enter A Column > ";
+                cin >> column;
+                board.removeNum(row, column);
+                board.printBoard();
+            }
+            else if (choice == 3){
+                playing = false;
+                cout << "Thanks for playing!";
+            }
         }
     return 0;
 }
