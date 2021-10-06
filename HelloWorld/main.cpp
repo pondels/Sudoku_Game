@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,8 +20,9 @@ public:
 
     void addNum(string number, int row, int column)
     {
-        string space = " ";
-        board[row - 1][column - 1] = space += number += space;
+        string open = "[";
+        string close = "]";
+        board[row - 1][column - 1] = open += number += close;
     }
 
     void removeNum(int row, int column)
@@ -28,26 +30,52 @@ public:
         board[row - 1][column - 1] = "[ ]";
     }
 
-    void printBoard()
+    bool checkCells(){
+        // Check for duplicates in an array both vertical and horizontal
+        // Horizontal
+         for (int i = 0; i < 9; i++){
+            string baseArray[9] = {};
+            for (int x = 0; x < 9; x++){
+                string open = "[";
+                string close = "]";
+                if (std::find(std::begin(baseArray), std::end(baseArray), board[i][x]) != std::end(baseArray)){
+                    baseArray[x] = (board[i][x]);
+                    cout << "NO DUPLICATES";
+                }
+            }
+            for (int n = 0; n < 9; n++){
+                cout << baseArray[n] << endl;
+            }
+        }
+        return false;
+    }
+
+    bool checkWin(){
+        bool variable = checkCells();
+        if (variable){
+
+        }
+        else{
+            return false;
+        }
+    }
+
+    void printBoard(string item)
     {
-        cout << "\n\n";
+        if (item == "col"){cout << "     1    2    3     4    5    6     7    8    9\n     v    v    v     v    v    v     v    v    v\n";}
+        else {cout << "\n\n";}
         for(int i = 0; i < 9; i++)
         {
             if(i == 3 || i == 6){
-                cout << "   ------------------------------\n";
+                cout << "    ---------------------------------------------\n";
             }
-            cout << "   ";
+            if(item == "row"){cout << i+1 << " >";}
+            else{cout << "   ";}
             for(int x = 0; x < 9; x++)
             {
-                if (x == 3 || x == 6){
-                    cout << ": ";;
-                }
-                if (board[i][x] != "[]"){
-                    cout << " " << board[i][x] << " ";
-                }
-                else{
-                    cout << board[i][x] << " ";
-                }
+                if (x == 3 || x == 6){cout << ":";}
+                if (board[i][x] != "[]"){cout << " " << board[i][x] << " ";}
+                else{cout << board[i][x] << " ";}
             }
             cout << endl;
         }
@@ -58,7 +86,7 @@ int main()
 {
     Board board;
 
-    board.printBoard();
+    board.printBoard("");
 
     bool playing = true;
 
@@ -67,26 +95,55 @@ int main()
             int column;
             string number;
             int choice;
+            bool validRow = false;
+            bool validCol = false;
+            bool validNum = false;
 
             cout << "PLEASE PICK AN OPTION: \n1) Add Number\n2) Remove Number\n3) Quit Game\n> ";
             cin >> choice;
             if (choice == 1){
-                cout << "Enter A Row > ";
-                cin >> row;
-                cout << "Enter A Column > ";
-                cin >> column;
-                cout << "Enter A Number > ";
-                cin >> number;
+                while(not validRow){
+                    board.printBoard("row");
+                    cout << "Enter A Row > ";
+                    cin >> row;
+                    if(1 <= row && row <= 9){validRow = true;}
+                    else{cout << "INVALID ROW" << endl;}
+                }
+                while(not validCol){
+                    board.printBoard("col");
+                    cout << "Enter A Column > ";
+                    cin >> column;
+                    if(1 <= column && column <= 9){validCol = true;}
+                    else{cout << "INVALID COLUMN" << endl;}
+                }
+                while(not validNum){
+                    cout << "Enter A Number > ";
+                    cin >> number;
+                    if(number == "1" || number == "2" || number == "3" || number == "4" || number == "5" || number == "6" || number == "7" || number == "8" || number == "9"){validNum = true;}
+                    else{cout << "INVALID NUMBER" << endl;}
+                }
+                bool duplicateValue = board.checkCells();
+                if (duplicateValue){cout << "Duplicate Variable!";}
                 board.addNum(number, row, column);
-                board.printBoard();
+                board.printBoard("");
             }
             else if (choice == 2){
-                cout << "Enter A Row > ";
-                cin >> row;
-                cout << "Enter A Column > ";
-                cin >> column;
+                while(not validRow){
+                    board.printBoard("row");
+                    cout << "Enter A Row > ";
+                    cin >> row;
+                    if(1 <= row && row <= 9){validRow = true;}
+                    else{cout << "INVALID ROW" << endl;}
+                }
+                while(not validCol){
+                    board.printBoard("col");
+                    cout << "Enter A Column > ";
+                    cin >> column;
+                    if(1 <= column && column <= 9){validCol = true;}
+                    else{cout << "INVALID COLUMN" << endl;}
+                }
                 board.removeNum(row, column);
-                board.printBoard();
+                board.printBoard("");
             }
             else if (choice == 3){
                 playing = false;
