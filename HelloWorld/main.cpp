@@ -5,6 +5,18 @@ using namespace std;
 
 class Board
 {
+private:
+    string solvedBoard[9][9] = {
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {}
+                                }
 public:
     string board[9][9] = {
                       {"[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]"},
@@ -34,17 +46,13 @@ public:
         // Check for duplicates in an array both vertical and horizontal
         // Horizontal
          for (int i = 0; i < 9; i++){
-            string baseArray[9] = {};
             for (int x = 0; x < 9; x++){
-                string open = "[";
-                string close = "]";
-                if (std::find(std::begin(baseArray), std::end(baseArray), board[i][x]) != std::end(baseArray)){
-                    baseArray[x] = (board[i][x]);
-                    cout << "NO DUPLICATES";
-                }
-            }
-            for (int n = 0; n < 9; n++){
-                cout << baseArray[n] << endl;
+                int * p;
+                // p = find (std::begin(board[i]), std::end(board[i]), board[i][x]);
+                //if (p != board[i]+9){
+                //    cout << "Element found in row: " << p << '\n';}
+                //else{
+                //    cout << "Element not found in row\n";}
             }
         }
         return false;
@@ -91,8 +99,7 @@ int main()
     bool playing = true;
 
         while(playing){
-            int row;
-            int column;
+            int row, column;
             string number;
             int choice;
             bool validRow = false;
@@ -122,9 +129,9 @@ int main()
                     if(number == "1" || number == "2" || number == "3" || number == "4" || number == "5" || number == "6" || number == "7" || number == "8" || number == "9"){validNum = true;}
                     else{cout << "INVALID NUMBER" << endl;}
                 }
+                board.addNum(number, row, column);
                 bool duplicateValue = board.checkCells();
                 if (duplicateValue){cout << "Duplicate Variable!";}
-                board.addNum(number, row, column);
                 board.printBoard("");
             }
             else if (choice == 2){
