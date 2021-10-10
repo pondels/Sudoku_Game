@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -34,7 +35,6 @@ public:
 
     bool cellCheckerReturnValue(int cellCatch[9][2], int num){
         for (int n=0; n<9; n++){
-            //cout << solvedBoard[cellCatch[n][0]][cellCatch[n][1]] << endl;
             if (solvedBoard[cellCatch[n][0]][cellCatch[n][1]] == num){
                return true;
             }
@@ -123,29 +123,38 @@ public:
         return false;
     }
     void generateBoard(){
+        //std::default_random_engine generator;
+        //std::uniform_int_distribution<int> distribution(1,9);
+        //std::srand(std::time(nullptr));
         bool validNum = false;
+        bool swapped = false;
+        int num;
         for (int row = 0; row < 10; row++){
+            std::srand(std::time(nullptr));
             for (int column = 0; column < 10; column++){
                 int n = 0;
                 do {
-                    int valuesLOL[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-                    random_shuffle(valuesLOL, valuesLOL+9);
-                    int num = valuesLOL[0];
-                    cout << num << endl;
+                    //num = distribution(generator);
+                    //if (swapped){
+                        num = std::rand()%9 + 1;
+                    //    swapped = false;
+                    //}
+                    //else{
+                    //    swapped = true;
+                    //}
                     bool checkC = checkCell(row, column, num);
                     bool checkH = checkHorizontal(row, column, num);
                     bool checkV = checkVertical(row, column, num);
                     if (not checkC && not checkH && not checkV){
-                        //cout << row << " " << column << " " << num << endl;
                         solvedBoard[row][column] = num;
                         break;
                     }
                     n++;
-                    //cout << n << endgl;
                 } while (n < 255);
             }
         }
     }
+
     void addNum(int number, int row, int column)
     {
         board[row - 1][column - 1] = number;
@@ -155,8 +164,6 @@ public:
     {
         board[row - 1][column - 1] = 0;
     }
-
-
 
     void printBoard(string item)
     {
@@ -172,20 +179,37 @@ public:
             for(int x = 0; x < 9; x++)
             {
                 if (x == 3 || x == 6){cout << ": ";}
-                if (solvedBoard[i][x] != 0){cout << "[" << solvedBoard[i][x] << "] ";}
+                if (board[i][x] != 0){cout << "[" << board[i][x] << "] ";}
                 else{cout << "[ ] ";}
             }
             cout << endl;
         }
         cout << "\n" << endl;
     }
+
+    bool checkValidBoard(){
+        for (int x=0; x < 9; x++){
+            for (int y=0; y < 9; y++){
+                if (solvedBoard[x][y] == 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 };
 
 int main()
 {
     Board board;
-
-    board.generateBoard();
+    bool validBoard = false;
+    int p = 0;
+    while (p < 10){
+        p++;
+        board.generateBoard();
+        validBoard = board.checkValidBoard();
+        board.printBoard("");
+    }
 
     board.printBoard("");
 
@@ -219,7 +243,7 @@ int main()
             while(not validNum){
                 cout << "Enter A Number > ";
                 cin >> number;
-                if(number == 1 || number == 2 || number == 3 || number == 4 || number == 5 || number == 6 || number == 7 || number == 8 || number == 9){validNum = true;}
+                if(1 <= number && number <= 9){validNum = true;}
                 else{cout << "INVALID NUMBER" << endl;}
             }
             board.addNum(number, row, column);
@@ -246,6 +270,9 @@ int main()
         else if (choice == 3){
             playing = false;
             cout << "Thanks for playing!";
+        }
+        else{
+            cout << "Please Enter A Valid Input!" << endl;
         }
     }
     return 0;
