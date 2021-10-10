@@ -3,8 +3,13 @@
 #include <stdlib.h>
 #include <ctime>
 #include <random>
+#include <chrono>
+#include <thread>
 
 using namespace std;
+using namespace std::this_thread;     // sleep_for, sleep_until
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
 
 class Board
 {
@@ -122,6 +127,7 @@ public:
         }
         return false;
     }
+
     void generateBoard(){
         //std::default_random_engine generator;
         //std::uniform_int_distribution<int> distribution(1,9);
@@ -129,19 +135,15 @@ public:
         bool validNum = false;
         bool swapped = false;
         int num;
+        std::array<int,9> yourMom {1,2,3,4,5,6,7,8,9};
         for (int row = 0; row < 10; row++){
-            std::srand(std::time(nullptr));
             for (int column = 0; column < 10; column++){
                 int n = 0;
                 do {
-                    //num = distribution(generator);
-                    //if (swapped){
-                        num = std::rand()%9 + 1;
-                    //    swapped = false;
-                    //}
-                    //else{
-                    //    swapped = true;
-                    //}
+                    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+                    shuffle(yourMom.begin(), yourMom.end(), std::default_random_engine(seed));
+                    //num = 1+rand()%9;
+                    num = yourMom[0];
                     bool checkC = checkCell(row, column, num);
                     bool checkH = checkHorizontal(row, column, num);
                     bool checkV = checkVertical(row, column, num);
@@ -149,6 +151,7 @@ public:
                         solvedBoard[row][column] = num;
                         break;
                     }
+                    num = 1+std::rand()%9;
                     n++;
                 } while (n < 255);
             }
@@ -179,7 +182,7 @@ public:
             for(int x = 0; x < 9; x++)
             {
                 if (x == 3 || x == 6){cout << ": ";}
-                if (board[i][x] != 0){cout << "[" << board[i][x] << "] ";}
+                if (solvedBoard[i][x] != 0){cout << "[" << solvedBoard[i][x] << "] ";}
                 else{cout << "[ ] ";}
             }
             cout << endl;
@@ -203,13 +206,16 @@ int main()
 {
     Board board;
     bool validBoard = false;
-    int p = 0;
-    while (p < 10){
-        p++;
+    cout << "Generating Board . . .";
+    do {
+        //Board board;
         board.generateBoard();
         validBoard = board.checkValidBoard();
         board.printBoard("");
-    }
+        sleep_for(.25s);
+        sleep_until(system_clock::now() + 1s);
+        //std::srand(std::time(nullptr));
+    } while (not validBoard);
 
     board.printBoard("");
 
