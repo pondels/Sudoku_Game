@@ -205,72 +205,71 @@ int main()
         Board board;
         board.generateBoard();
         validBoard = board.checkValidBoard();
-        board.printBoard("");
-        //sleep_for(.05s);
-        //sleep_until(system_clock::now());
         if (validBoard){
             board.printBoard("");
 
-    bool playing = true;
+            bool playing = true;
 
-    while(playing){
-        int row, column;
-        int number;
-        int choice;
-        bool validRow = false;
-        bool validCol = false;
-        bool validNum = false;
+            while(playing){
+                int row, column;
+                int number;
+                int choice;
+                bool validRow = false;
+                bool validCol = false;
+                bool validNum = false;
 
-        cout << "PLEASE PICK AN OPTION: \n1) Add Number\n2) Remove Number\n3) Quit Game\n> ";
-        cin >> choice;
-        if (choice == 1){
-            while(not validRow){
-                board.printBoard("row");
-                cout << "Enter A Row > ";
-                cin >> row;
-                if(1 <= row && row <= 9){validRow = true;}
-                else{cout << "INVALID ROW" << endl;}
+                cout << "PLEASE PICK AN OPTION: \n1) Add Number\n2) Remove Number\n3) Quit Game\n> ";
+                cin >> choice;
+                if (choice == 1){
+                    while(not validRow){
+                        board.printBoard("row");
+                        cout << "Enter A Row > ";
+                        cin >> row;
+                        if(1 <= row && row <= 9){validRow = true;}
+                        else{cout << "INVALID ROW" << endl;}
+                    }
+                    while(not validCol){
+                        board.printBoard("col");
+                        cout << "Enter A Column > ";
+                        cin >> column;
+                        if(1 <= column && column <= 9){validCol = true;}
+                        else{cout << "INVALID COLUMN" << endl;}
+                    }
+                    while(not validNum){
+                        cout << "Enter A Number > ";
+                        cin >> number;
+                        if(1 <= number && number <= 9){validNum = true;}
+                        else{cout << "INVALID NUMBER" << endl;}
+                    }
+                    board.addNum(number, row, column);
+                    board.printBoard("");
+                }
+                else if (choice == 2){
+                    while(not validRow){
+                        board.printBoard("row");
+                        cout << "Enter A Row > ";
+                        cin >> row;
+                        if(1 <= row && row <= 9){validRow = true;}
+                        else{cout << "INVALID ROW" << endl;}
+                    }
+                    while(not validCol){
+                        board.printBoard("col");
+                        cout << "Enter A Column > ";
+                        cin >> column;
+                        if(1 <= column && column <= 9){validCol = true;}
+                        else{cout << "INVALID COLUMN" << endl;}
+                    }
+                    board.removeNum(row, column);
+                    board.printBoard("");
+                }
+                else if (choice == 3){
+                    playing = false;
+                    cout << "Thanks for playing!";
+                }
+                else{
+                    cout << "Please Enter A Valid Input!" << endl;
+                }
             }
-            while(not validCol){
-                board.printBoard("col");
-                cout << "Enter A Column > ";
-                cin >> column;
-                if(1 <= column && column <= 9){validCol = true;}
-                else{cout << "INVALID COLUMN" << endl;}
-            }
-            while(not validNum){
-                cout << "Enter A Number > ";
-                cin >> number;
-                if(1 <= number && number <= 9){validNum = true;}
-                else{cout << "INVALID NUMBER" << endl;}
-            }
-            board.addNum(number, row, column);
-            board.printBoard("");
-        }
-        else if (choice == 2){
-            while(not validRow){
-                board.printBoard("row");
-                cout << "Enter A Row > ";
-                cin >> row;
-                if(1 <= row && row <= 9){validRow = true;}
-                else{cout << "INVALID ROW" << endl;}
-            }
-            while(not validCol){
-                board.printBoard("col");
-                cout << "Enter A Column > ";
-                cin >> column;
-                if(1 <= column && column <= 9){validCol = true;}
-                else{cout << "INVALID COLUMN" << endl;}
-            }
-            board.removeNum(row, column);
-            board.printBoard("");
-        }
-        else if (choice == 3){
-            playing = false;
-            cout << "Thanks for playing!";
-        }
-        else{
-            cout << "Please Enter A Valid Input!" << endl;
         }
     }
-}}}
+}
