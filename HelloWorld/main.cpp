@@ -129,9 +129,6 @@ public:
     }
 
     void generateBoard(){
-        //std::default_random_engine generator;
-        //std::uniform_int_distribution<int> distribution(1,9);
-        //std::srand(std::time(nullptr));
         bool validNum = false;
         bool swapped = false;
         int num;
@@ -142,7 +139,6 @@ public:
                 do {
                     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
                     shuffle(yourMom.begin(), yourMom.end(), std::default_random_engine(seed));
-                    //num = 1+rand()%9;
                     num = yourMom[0];
                     bool checkC = checkCell(row, column, num);
                     bool checkH = checkHorizontal(row, column, num);
@@ -175,7 +171,7 @@ public:
         for(int i = 0; i < 9; i++)
         {
             if(i == 3 || i == 6){
-                cout << "   ---------------------\n";
+                cout << "   ---------------------------------------\n";
             }
             if(item == "row"){cout << i+1 << " > ";}
             else{cout << "   ";}
@@ -204,20 +200,16 @@ public:
 
 int main()
 {
-    Board board;
     bool validBoard = false;
-    cout << "Generating Board . . .";
-    do {
-        //Board board;
+    while(not validBoard) {
+        Board board;
         board.generateBoard();
         validBoard = board.checkValidBoard();
         board.printBoard("");
-        sleep_for(.25s);
-        sleep_until(system_clock::now() + 1s);
-        //std::srand(std::time(nullptr));
-    } while (not validBoard);
-
-    board.printBoard("");
+        //sleep_for(.05s);
+        //sleep_until(system_clock::now());
+        if (validBoard){
+            board.printBoard("");
 
     bool playing = true;
 
@@ -281,5 +273,4 @@ int main()
             cout << "Please Enter A Valid Input!" << endl;
         }
     }
-    return 0;
-}
+}}}
