@@ -9,9 +9,9 @@ class Board
 {
 private:
     int solvedBoard[9][9] = {
-                            {1, 0, 1, 0, 0, 0, 0, 0, 0},
-                            {0, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 0, 1, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0, 0, 0},
                             {0, 0, 0, 0, 0, 0, 0, 0, 0},
                             {0, 0, 0, 0, 0, 0, 0, 0, 0},
                             {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -31,9 +31,10 @@ public:
                       {0, 0, 0, 0, 0, 0, 0, 0, 0},
                       {0, 0, 0, 0, 0, 0, 0, 0, 0}
                       };
+
     bool cellCheckerReturnValue(int cellCatch[9][2], int num){
-        for (int n=0; n < 10; n++){
-            cout << solvedBoard[cellCatch[n][0]][cellCatch[n][1]] << endl;
+        for (int n=0; n<9; n++){
+            //cout << solvedBoard[cellCatch[n][0]][cellCatch[n][1]] << endl;
             if (solvedBoard[cellCatch[n][0]][cellCatch[n][1]] == num){
                return true;
             }
@@ -43,7 +44,6 @@ public:
 
     bool checkCell(int row, int column, int num){
         int cell;
-        cout << row << " " << column << " " << num << endl;
         if (row == 0 || row == 1 || row == 2){
             if (column == 0 || column == 1 || column == 2){cell = 1;}
             else if (column == 3 || column == 4 || column == 5){cell = 2;}
@@ -59,7 +59,6 @@ public:
             else if (column == 3 || column == 4 || column == 5){cell = 8;}
             else {cell = 9;}
         }
-        cout << cell << endl;
         if (cell == 1){
             int cellCatch[9][2] = {{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}};
             bool decider = cellCheckerReturnValue(cellCatch, num);
@@ -127,16 +126,23 @@ public:
         bool validNum = false;
         for (int row = 0; row < 10; row++){
             for (int column = 0; column < 10; column++){
-                for (int num = 1; num < 10; num++){
+                int n = 0;
+                do {
+                    int valuesLOL[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+                    random_shuffle(valuesLOL, valuesLOL+9);
+                    int num = valuesLOL[0];
+                    cout << num << endl;
                     bool checkC = checkCell(row, column, num);
                     bool checkH = checkHorizontal(row, column, num);
                     bool checkV = checkVertical(row, column, num);
                     if (not checkC && not checkH && not checkV){
+                        //cout << row << " " << column << " " << num << endl;
                         solvedBoard[row][column] = num;
-                        cout << "Passed" << endl;
                         break;
                     }
-                }
+                    n++;
+                    //cout << n << endgl;
+                } while (n < 255);
             }
         }
     }
@@ -154,7 +160,7 @@ public:
 
     void printBoard(string item)
     {
-        if (item == "col"){cout << "   1 2 3   4 5 6   7 8 9\n   v v v   v v v   v v v\n";}
+        if (item == "col"){cout << "    1   2   3     4   5   6     7   8   9\n    v   v   v     v   v   v     v   v   v\n";}
         else {cout << "\n\n";}
         for(int i = 0; i < 9; i++)
         {
