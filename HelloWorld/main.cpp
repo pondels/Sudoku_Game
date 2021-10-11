@@ -396,6 +396,7 @@ int main()
                         else{cout << "INVALID NUMBER" << endl;}
                     }
                     validMove = board.checkValidMove(row, column, number);
+                    board.printBoard("", "solvedBoard");
                     if (validMove){
                         board.addNum(number, row, column);
                         board.printBoard("", "board");
