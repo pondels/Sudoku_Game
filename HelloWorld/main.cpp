@@ -337,9 +337,10 @@ public:
     }
     bool winningBoardChecker(){
         for (int x=0; x<9; x++){
-            for (int y=0; y<9; y++)
-            if (board[x][y] != solvedBoard[x][y]){
-                return false;
+            for (int y=0; y<9; y++){
+                if (board[x][y] == 0){
+                    return false;
+                }
             }
         }
         return true;
@@ -396,7 +397,6 @@ int main()
                         else{cout << "INVALID NUMBER" << endl;}
                     }
                     validMove = board.checkValidMove(row, column, number);
-                    board.printBoard("", "solvedBoard");
                     if (validMove){
                         board.addNum(number, row, column);
                         board.printBoard("", "board");
