@@ -169,7 +169,7 @@ public:
                         break;
                     }
                     n++;
-                } while (n < 255);
+                } while (n < 45);
             }
         }
     }
@@ -333,9 +333,7 @@ public:
         if (not invalidC && not invalidH && not invalidV){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
     bool winningBoardChecker(){
         for (int x=0; x<9; x++){
@@ -403,7 +401,7 @@ int main()
                         board.printBoard("", "board");
                     }
                     else {
-                        cout << "Invalid Move!";
+                        cout << "Invalid Move!" << endl;
                         errors++;
                     }
                     bool wonGame = board.winningBoardChecker();
