@@ -131,7 +131,6 @@ public:
                 }
             }
         }
-        //cout << "PASSED HORIZONTAL" << endl;
         return false;
     }
     bool checkVertical(int row, int column, int num, string boardType){
@@ -148,7 +147,6 @@ public:
                 }
             }
         }
-        //cout << "PASSED VERTICAL" << endl;
         return false;
     }
 
@@ -157,14 +155,12 @@ public:
         bool validNum = false;
         bool swapped = false;
         int num;
-        std::array<int,9> yourMom {4,1,8,2,7,5,6,3,9};
         for (int row = 0; row < 9; row++){
+
             for (int column = 0; column < 9; column++){
                 int n = 0;
                 do {
-                    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-                    shuffle(yourMom.begin(), yourMom.end(), std::default_random_engine(seed));
-                    num = yourMom[0];
+                    num = 1+std::rand()%9;
                     bool checkC = checkCell(row, column, num, "solvedBoard");
                     bool checkH = checkHorizontal(row, column, num, "solvedBoard");
                     bool checkV = checkVertical(row, column, num, "solvedBoard");
@@ -172,7 +168,6 @@ public:
                         solvedBoard[row][column] = num;
                         break;
                     }
-                    num = 1+std::rand()%9;
                     n++;
                 } while (n < 255);
             }
@@ -224,41 +219,41 @@ public:
         // With a given cell, that cell is found and replaced with the
         // given number on the solved board
         int rowFound, columnFound;
-        if (cellNumber < 10){
+        if (cellNumber < 9){
             rowFound = 0;
-            columnFound = cellNumber - 1;
+            columnFound = cellNumber;
         }
-        else if (cellNumber < 19){
+        else if (cellNumber < 18){
             rowFound = 1;
-            columnFound = cellNumber - 10;
+            columnFound = cellNumber - 9;
         }
-        else if (cellNumber < 28){
+        else if (cellNumber < 27){
             rowFound = 2;
-            columnFound = cellNumber - 19;
+            columnFound = cellNumber - 18;
         }
-        else if (cellNumber < 37){
+        else if (cellNumber < 36){
             rowFound = 3;
-            columnFound = cellNumber - 28;
+            columnFound = cellNumber - 27;
         }
-        else if (cellNumber < 46){
+        else if (cellNumber < 45){
             rowFound = 4;
-            columnFound = cellNumber - 37;
+            columnFound = cellNumber - 36;
         }
-        else if (cellNumber < 55){
+        else if (cellNumber < 54){
             rowFound = 5;
-            columnFound = cellNumber - 46;
+            columnFound = cellNumber - 45;
         }
-        else if (cellNumber < 64){
+        else if (cellNumber < 63){
             rowFound = 6;
-            columnFound = cellNumber - 55;
+            columnFound = cellNumber - 54;
         }
-        else if (cellNumber < 73){
+        else if (cellNumber < 72){
             rowFound = 7;
-            columnFound = cellNumber - 64;
+            columnFound = cellNumber - 63;
         }
         else{
             rowFound = 8;
-            columnFound = cellNumber - 73;
+            columnFound = cellNumber - 72;
         }
         if (type == "row"){
             return rowFound;
@@ -289,8 +284,7 @@ public:
         // runs visualBoard to setup the board.
         if (difficulty == 1){
             // Baby
-            // 47, 55
-            int amountShown[2] = {80, 81};
+            int amountShown[2] = {47, 55};
             visualBoard(amountShown[0], amountShown[1]);
         }
         else if (difficulty == 2){
@@ -326,12 +320,10 @@ public:
         for (int x=0; x < 9; x++){
             for (int y=0; y < 9; y++){
                 if (solvedBoard[x][y] == 0){
-                    cout << "BANANA FAIL LMAO RPG EXECUTION EXPEDITION CHALLENGE MODEEEEE" << endl;
                     return false;
                 }
             }
         }
-        cout << "e" << endl;
         return true;
     }
     bool checkValidMove(int row, int column, int number){
@@ -366,13 +358,10 @@ int main()
         Board board;
         board.generateBoard();
         validBoard = board.checkValidBoard();
-        board.printBoard("", "solvedBoard");
         if (validBoard){
-            board.printBoard("", "solvedBoard");
             cout << "Choose a Difficulty\n\n1) Baby\n2) Easy\n3) Medium\n4) Hard\n5) Expert\n6) Impossible\n > ";
             cin >> difficulty;
             board.boardSetup(difficulty);
-            board.printBoard("", "solvedBoard");
             board.printBoard("", "board");
             bool playing = true;
 
