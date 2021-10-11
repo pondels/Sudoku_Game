@@ -119,7 +119,7 @@ public:
     }
     bool checkHorizontal(int row, int column, int num, string boardType){
         // Checks if a number is already in the horizontal
-        for (int n=0; n < 10; n++){
+        for (int n=0; n < 9; n++){
             if (boardType == "solvedBoard"){
                 if (num == solvedBoard[row][n]){
                     return true;
@@ -131,11 +131,12 @@ public:
                 }
             }
         }
+        //cout << "PASSED HORIZONTAL" << endl;
         return false;
     }
     bool checkVertical(int row, int column, int num, string boardType){
         // Checks if a number is already in the vertical
-        for (int n=0; n < 10; n++){
+        for (int n=0; n < 9; n++){
             if (boardType == "solvedBoard"){
                 if (num == solvedBoard[n][column]){
                     return true;
@@ -147,6 +148,7 @@ public:
                 }
             }
         }
+        //cout << "PASSED VERTICAL" << endl;
         return false;
     }
 
@@ -155,9 +157,9 @@ public:
         bool validNum = false;
         bool swapped = false;
         int num;
-        std::array<int,9> yourMom {1,2,3,4,5,6,7,8,9};
-        for (int row = 0; row < 10; row++){
-            for (int column = 0; column < 10; column++){
+        std::array<int,9> yourMom {4,1,8,2,7,5,6,3,9};
+        for (int row = 0; row < 9; row++){
+            for (int column = 0; column < 9; column++){
                 int n = 0;
                 do {
                     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -210,7 +212,7 @@ public:
                 }
                 else {
                     if (board[i][x] != 0){cout << "[" << board[i][x] << "] ";}
-                    else{cout << "[ ] ";}3
+                    else{cout << "[ ] ";}
                 }
             }
             cout << endl;
@@ -287,7 +289,8 @@ public:
         // runs visualBoard to setup the board.
         if (difficulty == 1){
             // Baby
-            int amountShown[2] = {47, 55};
+            // 47, 55
+            int amountShown[2] = {80, 81};
             visualBoard(amountShown[0], amountShown[1]);
         }
         else if (difficulty == 2){
@@ -323,10 +326,12 @@ public:
         for (int x=0; x < 9; x++){
             for (int y=0; y < 9; y++){
                 if (solvedBoard[x][y] == 0){
+                    cout << "BANANA FAIL LMAO RPG EXECUTION EXPEDITION CHALLENGE MODEEEEE" << endl;
                     return false;
                 }
             }
         }
+        cout << "e" << endl;
         return true;
     }
     bool checkValidMove(int row, int column, int number){
@@ -334,19 +339,20 @@ public:
         bool invalidH = checkHorizontal(row-1, column-1, number, "board");
         bool invalidV = checkVertical(row-1, column-1, number, "board");
         if (not invalidC && not invalidH && not invalidV){
-            solvedBoard[row][column] = number;
             return true;
         }
         else{
-            cout << invalidC << invalidH << invalidV << endl;
             return false;
         }
     }
     bool winningBoardChecker(){
-        if (board == solvedBoard){
-            return true;
+        for (int x=0; x<9; x++){
+            for (int y=0; y<9; y++)
+            if (board[x][y] != solvedBoard[x][y]){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 };
 
@@ -360,7 +366,9 @@ int main()
         Board board;
         board.generateBoard();
         validBoard = board.checkValidBoard();
+        board.printBoard("", "solvedBoard");
         if (validBoard){
+            board.printBoard("", "solvedBoard");
             cout << "Choose a Difficulty\n\n1) Baby\n2) Easy\n3) Medium\n4) Hard\n5) Expert\n6) Impossible\n > ";
             cin >> difficulty;
             board.boardSetup(difficulty);
