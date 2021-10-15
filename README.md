@@ -15,7 +15,7 @@
 
 #### These features allow you to place a number via row/column input and is visualized within the program itself. You select the row and column and type in the number 1 - 9 to insert into the cell that you have selected. Vice-Versa for deleting a number, except no number needs to be specified, only the row and column.
 
-[Software Demo Video]()
+[Software Demo Video](https://www.youtube.com/watch?v=CJSshWjJ0VM)
 
 # Development Environment
 
